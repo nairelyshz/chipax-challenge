@@ -13,18 +13,6 @@ const urls: URLS = {
 	episodes: "https://rickandmortyapi.com/api/episode"
 }
 
-export function getCharacters(url: string){
+export function getByUrl(url: string){
 	return axios.get(`${url}`);
-}
-
-export function getLocations(){
-	return axios.get(urls.locations);
-}
-
-export function getEpisodes(){
-	return axios.get(urls.episodes);
-}
-
-export function getCharacter(url:string) {
-	return axios.get(url);
 }

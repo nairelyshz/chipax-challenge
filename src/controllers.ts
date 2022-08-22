@@ -17,15 +17,15 @@ export async function tasks(req: Request, res: Response) {
     /** Get all characters */
     console.info("Get all characters")
     const allCharacters: any[] = [];
-    const response = await services.getCharacters("https://rickandmortyapi.com/api/character");
+    const response = await services.getByUrl("https://rickandmortyapi.com/api/character");
     allCharacters.push(...response.data.results);
     let next = response.data.info.next;
     while (next!==null) {
-        const response = await services.getCharacter(next);
+        const response = await services.getByUrl(next);
         allCharacters.push(...response.data.results);
 
         next = response.data.info.next;
-        next ? console.log(next, "cargando..."): console.log("carga de characters finalizada");
+        next ? console.info(next, "cargando..."): console.info("carga de characters finalizada");
     }
 
     /** evaluting all characters */
@@ -42,15 +42,15 @@ export async function tasks(req: Request, res: Response) {
 
     /** Get all locations */
     const allLocations: any[] = [];
-    const responseLocation = await services.getCharacters("https://rickandmortyapi.com/api/location");
+    const responseLocation = await services.getByUrl("https://rickandmortyapi.com/api/location");
     allLocations.push(...responseLocation.data.results);
     let nextLocation = responseLocation.data.info.next;
     
     while (nextLocation!==null) {
-        const response = await services.getCharacter(nextLocation);
+        const response = await services.getByUrl(nextLocation);
         allLocations.push(...response.data.results);
         nextLocation = response.data.info.next;
-        nextLocation ? console.log(nextLocation, "cargando..."): console.log("carga de locations finalizada");
+        nextLocation ? console.info(nextLocation, "cargando..."): console.info("carga de locations finalizada");
 
     }
 
@@ -71,15 +71,14 @@ export async function tasks(req: Request, res: Response) {
 
      /** Get all episodes */
      const allEpisodes: any[] = [];
-     const responseEpisode = await services.getCharacters("https://rickandmortyapi.com/api/episode");
+     const responseEpisode = await services.getByUrl("https://rickandmortyapi.com/api/episode");
      allEpisodes.push(...responseEpisode.data.results);
      let nextEpisode = responseEpisode.data.info.next;
-     console.log(nextEpisode);
      while (nextEpisode!==null) {
-         const response = await services.getCharacter(nextEpisode);
+         const response = await services.getByUrl(nextEpisode);
          allEpisodes.push(...response.data.results);
          nextEpisode = response.data.info.next;
-         nextEpisode ? console.log(nextEpisode, "cargando..."): console.log("carga de episodes finalizada");
+         nextEpisode ? console.info(nextEpisode, "cargando..."): console.info("carga de episodes finalizada");
      }
 
 
@@ -98,7 +97,6 @@ export async function tasks(req: Request, res: Response) {
     let timeEnd = (performance.now() - time)/1000;
     responseCharCounter.time = timeEnd + 's';
     responseCharCounter.in_time = timeEnd <= 3;
-    console.log("response task 1", responseCharCounter);
 
     // /** Episode Locations */
     time = performance.now();
