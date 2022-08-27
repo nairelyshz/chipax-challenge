@@ -113,14 +113,26 @@ export async function tasks(req: Request, res: Response) {
             const parts = character.split('/')
             const index = parts[parts.length - 1];
             const result = allCharacters.find((char: {id: number})=> char.id == +index);
-            let resultEpisode: EpisodeResult;
-            resultEpisode = {    
-                name: result.name,
-                episode: episode.episode,
-                locations: [result.origin.name]
-            }
-            responseEpisodes.results.push(resultEpisode);
+            allLocations.map((location) => {
 
+                const characterFound = location.residents.find((resident:string) => resident === result.url);
+                if(characterFound) {
+                    let resultEpisode: EpisodeResult;
+                    resultEpisode = {    
+                        name: result.name,
+                        episode: episode.episode,
+                        locations: [result.location.name]
+                    }
+                    if(!resultEpisode.locations.find((locationName) => locationName === result.origin.name) ){
+                        resultEpisode.locations.push(result.origin.name)
+                    }   
+                    if(!resultEpisode.locations.find((locationName) => locationName === result.location.name)) {
+                        resultEpisode.locations.push(result.location.name)
+                    }   
+                    responseEpisodes.results.push(resultEpisode);
+        
+                }
+            })
         })
     })
 
